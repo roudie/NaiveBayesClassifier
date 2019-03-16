@@ -22,4 +22,9 @@ def calcNormalStats(dataset):
         for atr in zipped:
             #print(atr)
             stats.setdefault(key, []).append(getNormal(atr))
+    #z = stats.update(stats)
+    pprint.pprint(Merge(stats, stats))
     return stats
+
+def Merge(dict1, dict2):
+    return(dict2.update(dict1))
