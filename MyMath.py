@@ -1,5 +1,6 @@
 import pprint
 
+
 def getNormal(list):
     sum = 0
     amount = 0
@@ -15,6 +16,7 @@ def getNormal(list):
     std = std**(1/2)
     return average, std
 
+
 def calcNormalStats(dataset):
     stats = dict()
     for key, value in dataset.items():
@@ -23,8 +25,9 @@ def calcNormalStats(dataset):
             #print(atr)
             stats.setdefault(key, []).append(getNormal(atr))
     #z = stats.update(stats)
-    pprint.pprint(Merge(stats, stats))
+    #pprint.pprint(Merge(stats, stats))
     return stats
+
 
 def Merge(dict1, dict2):
     return(dict2.update(dict1))

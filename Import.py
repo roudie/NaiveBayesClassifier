@@ -3,6 +3,9 @@ import csv
 def loadCSV(filename):
     lines = csv.reader(open(filename, 'rt'))
     dataset = list(lines)
+    for line in dataset:
+        for x in range(len(line)-1):
+            line[x] = float(line[x])
     return dataset
 
 def splitDataset(dataset):
@@ -12,5 +15,3 @@ def splitDataset(dataset):
             dataset[i][len(dataset[i])-1], []).append(
             [float(i) for i in dataset[i][0:len(dataset[i])-1]])
     return d
-
-#[float(i) for i in lst]

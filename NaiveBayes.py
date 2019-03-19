@@ -1,23 +1,28 @@
-
-import pprint
 import Import as imp
-import numpy as np
-import MyMath as mmath
-import NormalDist as norm
-import matplotlib.pyplot as plt
 import CrossValidation as cross
-
+import MyMath
+import NormalDist
+import ConfusionMatrix
+import pprint
+import Discretization.EqualWidthPartitioning as disc
 raw_data = imp.loadCSV("data\\iris.data")
-splitted_data = imp.splitDataset(raw_data)
-stats = mmath.calcNormalStats(splitted_data)
+zipped = list(zip(*raw_data))
 
-cross.splitDictionary(splitted_data, 3)
-#positive_result = 0
-#for key, datas in splitted_data.items():
-#    for item in datas:
-#        if key == norm.GetClass(stats, item):
-#            positive_result+=1
-        #else:
-            #print(["prawidłowo: ", key, "wyszlo: ", norm.GetClass(stats, item), item])
+equal_wid = disc.EqualWidthPartitioning(zipped[1], 5)
+equal_wid.bining(2.2)
+splitted_dataset = cross.split_list(raw_data, 2, True)
+k_fold = cross.KFold(splitted_dataset)
+measure = []
+for fold in k_fold:
+    stats = MyMath.calcNormalStats(fold[0])
 
-#print(positive_result / len(raw_data))
+    stat = ConfusionMatrix.ConfusionMatrixStatistic(stats)
+    iter = 0
+    for item in fold[1]:
+        stat.add_result(item[len(item)-1], NormalDist.get_class(stats, item))
+        if NormalDist.get_class(stats, item) == item[len(item)-1]:
+            iter +=1
+    measure.append(stat.calc_stats())
+
+x = ConfusionMatrix.Measure.connect(measure)
+print(x)
