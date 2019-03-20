@@ -5,11 +5,35 @@ import NormalDist
 import ConfusionMatrix
 import pprint
 import Discretization.EqualWidthPartitioning as disc
+import TestManagers.Gaussian as gau
 raw_data = imp.loadCSV("data\\iris.data")
 zipped = list(zip(*raw_data))
 
-equal_wid = disc.EqualWidthPartitioning(zipped[1], 5)
-equal_wid.bining(2.2)
+bin = 10
+reapets = 10
+k_fold = [2, 3, 5, 10]
+gaussian = gau.GaussianManager()
+stats = []
+for k in k_fold:
+    gaussian.preper(raw_data, reapets, k)
+    stats.append(gaussian.start())
+
+for x in stats:
+    print(x)
+
+
+## bining equal width
+equal_wid = []
+pprint.pprint(raw_data)
+for i in range(len(zipped)-1):
+    equal_wid.append(disc.EqualWidthPartitioning(zipped[i], 10))
+for i in range(len(raw_data)):
+    for j in range(len(raw_data[i])-1):
+        raw_data[i][j] = equal_wid[j].bining(raw_data[i][j])
+
+
+
+
 splitted_dataset = cross.split_list(raw_data, 2, True)
 k_fold = cross.KFold(splitted_dataset)
 measure = []
@@ -25,4 +49,4 @@ for fold in k_fold:
     measure.append(stat.calc_stats())
 
 x = ConfusionMatrix.Measure.connect(measure)
-print(x)
+#print(x)

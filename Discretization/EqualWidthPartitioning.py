@@ -1,5 +1,4 @@
 import math
-
 class EqualWidthPartitioning:
     min = 0
     max = 0
@@ -18,4 +17,4 @@ class EqualWidthPartitioning:
         if value > self.max:
             return self.n - 1
         x = math.ceil((value - self.min)/self.width)
-        print(x)
+        return x

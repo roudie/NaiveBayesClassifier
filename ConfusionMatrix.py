@@ -26,17 +26,26 @@ class Measure:
         return ret_str
 
     @staticmethod
-    def connect(dict):
+    def connect(list):
         measure = Measure(None)
         iter = 0
-        for val in dict:
-            for key, item in val.items():
-                measure.F1  += item.F1
-                measure.TPR += item.TPR
-                measure.PPV += item.PPV
-                measure.TNR += item.TNR
-                measure.ACC += item.ACC
-                iter+=1
+
+        for val in list:
+            if type(val) is Measure:
+                measure.F1 += val.F1
+                measure.TPR += val.TPR
+                measure.PPV += val.PPV
+                measure.TNR += val.TNR
+                measure.ACC += val.ACC
+                iter += 1
+            else:
+                for key, item in val.items():
+                    measure.F1  += item.F1
+                    measure.TPR += item.TPR
+                    measure.PPV += item.PPV
+                    measure.TNR += item.TNR
+                    measure.ACC += item.ACC
+                    iter+=1
         measure.F1  /= iter
         measure.TPR /= iter
         measure.PPV /= iter
