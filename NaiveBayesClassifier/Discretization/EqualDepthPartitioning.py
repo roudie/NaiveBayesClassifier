@@ -1,6 +1,3 @@
-import math
-
-import NaiveBayesClassifier.Discretization.EqualWidthPartitioning as disc
 
 def get_class(stats, class_prob, buckets, item):
     prob = dict()
@@ -26,7 +23,7 @@ def create_dictionary_with_buckets(raw_data, k):
     buckets = []
     zipped_raw_data = list(zip(*raw_data))
     for i in range(len(zipped_raw_data) - 1):
-        buckets.append(disc.EqualWidthPartitioning(zipped_raw_data[i], k))
+        buckets.append(EqualDepthPartitioning(zipped_raw_data[i], k))
 
     ### tworzenie wygładzonego slownika
     dictonary = dict()
@@ -38,11 +35,11 @@ def create_dictionary_with_buckets(raw_data, k):
             for j in range(len(buckets)):
                 dictonary[class_name].append([int(1) for i in range(k)])
 
-    ## uzupełnianie kubełków i liczenie prawdopodobienstwa klasy
 
+    ## uzupełnianie kubełków i liczenie prawdopodobienstwa klasy
     for item in raw_data:
         for i in range(len(item) - 1):
-            dictonary[item[len(item) - 1]][i][buckets[i].bining(item[i])] += 1
+            dictonary[item[len(item)-1]][i][buckets[i].bining(item[i])] += 1
         class_prob[item[len(item) - 1]] += 1
 
     ## liczenie prawdopodobieństw kubełków
@@ -55,22 +52,20 @@ def create_dictionary_with_buckets(raw_data, k):
     return dictonary, class_prob, buckets
 
 
-class EqualWidthPartitioning:
-    min = 0
-    max = 0
-    n = 0
-    width = 0
-
+class EqualDepthPartitioning:
+    bins = []
     def __init__(self, list, n):
-        list = sorted(list)
-        self.min = list[0]
-        self.max = list[len(list)-1]
-        self.width = (self.max - self.min) / (n-1)
+        list_buff = sorted(list)
+        self.bins = []
+        for i in range(n-1):
+            widght = round(len(list_buff)/(n-i))
+            self.bins.append((list_buff[widght]+list_buff[widght+1])/2)
+            #print(list)
+            list_buff = list_buff[widght:]
 
-    def bining(self, value):
-        if value <= self.min:
-            return 0
-        if value > self.max:
-            return self.n - 1
-        x = math.ceil((value - self.min)/self.width)
-        return x
+    def bining(self, val):
+        for i in range(len(self.bins)):
+            if val < self.bins[i]:
+                return i
+        return len(self.bins)
+
