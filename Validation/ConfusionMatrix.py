@@ -15,11 +15,22 @@ class Measure:
     def __init__(self, matrix):
         if matrix is not None:
             self.ACC = (matrix.TP + matrix.TN)/(matrix.TP + matrix.TN + matrix.FP + matrix.FN)
-            self.PPV = (matrix.TP)/(matrix.TP + matrix.FP)
-            self.TNR = (matrix.TN)/(matrix.FP + matrix.TN)
-            self.TPR = (matrix.TP)/(matrix.TP + matrix.FN)
-            self.F1  = (2*self.PPV*self.TPR)/(self.PPV + self.TPR)
-
+            if matrix.TP + matrix.FP != 0:
+                self.PPV = (matrix.TP)/(matrix.TP + matrix.FP)
+            else:
+                self.PPV = 1
+            if matrix.FP + matrix.TN != 0:
+                self.TNR = (matrix.TN)/(matrix.FP + matrix.TN)
+            else:
+                self.TNR = 1
+            if matrix.TP + matrix.FN != 0:
+                self.TPR = (matrix.TP)/(matrix.TP + matrix.FN)
+            else:
+                self.TPR = 1
+            if self.PPV + self.TPR != 0:
+                self.F1 = (2*self.PPV*self.TPR)/(self.PPV + self.TPR)
+            else:
+                self.F1 = 1
     def __str__(self):
         ret_str = "F1: " + str(self.F1) + "\nACC: "+str(self.ACC) + "\nPPV: "+ str(self.PPV)
         ret_str += "\nTNR: " + str(self.TNR) + "\nTPR: " + str(self.TPR)
@@ -54,8 +65,6 @@ class Measure:
         return measure
 
 
-
-
 class ConfusionMatrixStatistic:
     relative_matrices = dict()
 
@@ -76,7 +85,6 @@ class ConfusionMatrixStatistic:
                     self.relative_matrices[key].FP+=1
                 else:
                     self.relative_matrices[key].FN+=1
-
 
     def calc_stats(self):
         stats = dict()

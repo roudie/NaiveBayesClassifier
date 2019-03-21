@@ -1,5 +1,6 @@
 from random import shuffle
-import DataConverter
+from NaiveBayesClassifier import DataConverter
+
 
 def split_list(dataset, p, random):
     list = []
@@ -24,6 +25,7 @@ def KFold(list):
         return_list.append([DataConverter.list_to_dictionary(list_buffor), list[i]])
     return return_list
 
+
 def split_dictionary(dictionary, p, random):
     newDict = []
     iter = 0
@@ -44,13 +46,3 @@ def dictionary_to_raw(dictionary):
             x = item
             list.append([*item, key])
     return list
-
-
-def split(dictionary, p, random):
-    splitted = split_dictionary(dictionary, p, random)
-    list = []
-    for dict in splitted:
-        n_dict = dict()
-
-
-

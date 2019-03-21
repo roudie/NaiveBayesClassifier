@@ -6,6 +6,7 @@ def list_to_dictionary(dataset):
             [float(i) for i in dataset[i][0:len(dataset[i]) - 1]])
     return d
 
+
 def list_to_bin_dictionary(dataset, p):
     d = list_to_dictionary(dataset)
     bin_dict = dict()
