@@ -7,12 +7,14 @@ import Import as imp
 def table_to_dataframe(data):
     #plt, ax = plt.subplots()
     x = imp.loadCSV("data\\iris.data")
-    datas = pd.DataFrame(data, columns=["typ", "k_fold", "poziom dyskretyzacji", "ACC", "PPV", "TPR", "F1"])
+    y = pd.DataFrame(x, columns=["A", "B", "C", "D", "E"])
+    datas = pd.DataFrame(data, columns=["typ", "k_fold", 'Ilość kubełków', "Dokładność", "Precyzja", "Czułość/Swoistość", "F1"])
     datas.to_csv("s.csv")
     print(x)
     print(datas)
     sns.set(style="ticks")
-    sns.pairplot(datas, hue="typ")
+    sns.pairplot(datas, hue='typ')
+    #sns.pairplot(y, hue="E")
     print(datas.values)
     plt.show()
 

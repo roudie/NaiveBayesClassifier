@@ -8,18 +8,20 @@ import Vizualization.Seaborn as viz
 raw_data = imp.loadCSV("data\\iris.data")
 zipped = list(zip(*raw_data))
 
-bin = [6, 7] #, 8, 9, 10, 11, 12, 13, 14, 15, 16
+bin = [8, 9, 10, 11, 12, 13, 14, 15, 16]
 repeat = 2
 k_fold = [2, 3, 5, 10]
 measurement = []
 
 #metoda, k_fold, bins, ACC, PPV, TPR, F1
 ## gaussian
+x = 0.000001
 gaussian = gau.GaussianManager()
 for k in k_fold:
     gaussian.prepare(raw_data, repeat, k)
     single_m = gaussian.start()
-    measurement.append(["A", k, 0, single_m.ACC, single_m.PPV, single_m.TPR, single_m.F1])
+    x += 0.0000001
+    measurement.append(["Brak dyskretyzacji", k, x , single_m.ACC, single_m.PPV, single_m.TPR, single_m.F1])
 
 ## equal width
 equal_width_manager = bew.EqualWidthManager()
@@ -27,7 +29,7 @@ for k in k_fold:
     for b in bin:
         equal_width_manager.prepare(raw_data, repeat, k, b)
         single_m = equal_width_manager.start()
-        measurement.append(["B", k, b, single_m.ACC, single_m.PPV, single_m.TPR, single_m.F1])
+        measurement.append(["Dyskretyzacja o stałej szerokości", k, float(b), single_m.ACC, single_m.PPV, single_m.TPR, single_m.F1])
 
 
 ## equal depth
@@ -36,6 +38,6 @@ for k in k_fold:
     for b in bin:
         equal_depth_manager.prepare(raw_data, repeat, k, b)
         single_m = equal_depth_manager.start()
-        measurement.append(["C", k, b, single_m.ACC, single_m.PPV, single_m.TPR, single_m.F1])
+        measurement.append(["Dyskretyzacja o stałej częstości", k, float(b), single_m.ACC, single_m.PPV, single_m.TPR, single_m.F1])
 #x = imp.measurement_to_dict(measurement)
 viz.table_to_dataframe(measurement)
