@@ -6,7 +6,7 @@ def get_class(stats, class_prob, buckets, item):
     prob = dict()
     result = []
     for i in range(len(item)-1):
-        item[i] = buckets[i].bining(item[i])
+        item[i] = buckets[i].binning(item[i])
     for key, atr in stats.items():
         for i in range(len(item) - 1):
             prob.setdefault(key, []).append(stats[key][i][item[i]])
@@ -42,7 +42,7 @@ def create_dictionary_with_buckets(raw_data, k):
 
     for item in raw_data:
         for i in range(len(item) - 1):
-            dictonary[item[len(item) - 1]][i][buckets[i].bining(item[i])] += 1
+            dictonary[item[len(item) - 1]][i][buckets[i].binning(item[i])] += 1
         class_prob[item[len(item) - 1]] += 1
 
     ## liczenie prawdopodobieństw kubełków
@@ -67,10 +67,11 @@ class EqualWidthPartitioning:
         self.max = list[len(list)-1]
         self.width = (self.max - self.min) / (n-1)
 
-    def bining(self, value):
+    def binning(self, value):
         if value <= self.min:
             return 0
         if value > self.max:
             return self.n - 1
         x = math.ceil((value - self.min)/self.width)
         return x
+

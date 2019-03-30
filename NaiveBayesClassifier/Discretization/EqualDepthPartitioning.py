@@ -3,7 +3,7 @@ def get_class(stats, class_prob, buckets, item):
     prob = dict()
     result = []
     for i in range(len(item)-1):
-        item[i] = buckets[i].bining(item[i])
+        item[i] = buckets[i].binning(item[i])
     for key, atr in stats.items():
         for i in range(len(item) - 1):
             prob.setdefault(key, []).append(stats[key][i][item[i]])
@@ -39,7 +39,7 @@ def create_dictionary_with_buckets(raw_data, k):
     ## uzupełnianie kubełków i liczenie prawdopodobienstwa klasy
     for item in raw_data:
         for i in range(len(item) - 1):
-            dictonary[item[len(item)-1]][i][buckets[i].bining(item[i])] += 1
+            dictonary[item[len(item)-1]][i][buckets[i].binning(item[i])] += 1
         class_prob[item[len(item) - 1]] += 1
 
     ## liczenie prawdopodobieństw kubełków
@@ -59,11 +59,12 @@ class EqualDepthPartitioning:
         self.bins = []
         for i in range(n-1):
             widght = round(len(list_buff)/(n-i))
-            self.bins.append((list_buff[widght]+list_buff[widght+1])/2)
+            if widght<len(list_buff)-1:
+                self.bins.append((list_buff[widght]+list_buff[widght+1])/2)
             #print(list)
-            list_buff = list_buff[widght:]
+                list_buff = list_buff[widght:]
 
-    def bining(self, val):
+    def binning(self, val):
         for i in range(len(self.bins)):
             if val < self.bins[i]:
                 return i

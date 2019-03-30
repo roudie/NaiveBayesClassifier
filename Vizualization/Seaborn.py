@@ -4,22 +4,30 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import Import as imp
 
-def table_to_dataframe(data):
+polish = ["typ", "k_fold", 'Ilość kubełków', "Dokładność", "Precyzja", "Czułość/Swoistość", "F1"]
+english = ['type', 'k_folg', 'bins', 'accuracy', 'precision', 'recall', 'F1']
+current = english
+
+def table_to_dataframe(data, dataset_name):
     #plt, ax = plt.subplots()
-    x = imp.loadCSV("data\\iris.data")
-    y = pd.DataFrame(x, columns=["A", "B", "C", "D", "E"])
-    datas = pd.DataFrame(data, columns=["typ", "k_fold", 'Ilość kubełków', "Dokładność", "Precyzja", "Czułość/Swoistość", "F1"])
-    datas.to_csv("s.csv")
-    print(x)
+    datas = pd.DataFrame(data, columns=current)
+    x = datas.to_latex(index=False)
+    f = open(dataset_name+ ".txt", "w")
+    f.write(x)
+    f.close()
+
     print(datas)
     sns.set(style="ticks")
-    sns.pairplot(datas, hue='typ')
+    #data2 = datas['typ'].isin('Brak dyskretyzacji')
+
+    g = sns.PairGrid(datas, hue=current[0])
+    g.map_upper(plt.scatter)
+    g.map_lower(sns.kdeplot)
+    g.map_diag(plt.hist, histtype="step", linewidth=2);
+    g.add_legend()
+    g.fig.suptitle(dataset_name, size=15)
+
+    ##sns.pairplot(datas, hue='typ')
     #sns.pairplot(y, hue="E")
     print(datas.values)
     plt.show()
-
-#x = imp.loadCSV("..\\data\\iris.data")
-#y = pd.DataFrame(x, columns=["A","B","C","D","E"])
-#sns.set(style="ticks")
-#sns.pairplot(y, hue="E")
-#plt.show()
