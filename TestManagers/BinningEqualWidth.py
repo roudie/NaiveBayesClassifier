@@ -22,7 +22,7 @@ class EqualWidthManager:
             splitted_dataset = cross.split_list(self.raw_data, self.k, True)
             k_fold = cross.KFold(splitted_dataset)
             for fold in k_fold:
-                stats, class_prob, buckets = ewp.create_dictionary_with_buckets(self.raw_data, self.bins)
+                stats, class_prob, buckets = ewp.create_dictionary_with_buckets(self.raw_data, fold[0], self.bins)
                 confusion_matrices = ConfusionMatrix.ConfusionMatrixStatistic(stats)
                 for item in fold[1]:
                     confusion_matrices.add_result(item[len(item) - 1], ewp.get_class(stats, class_prob, buckets, item))

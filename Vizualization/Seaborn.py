@@ -11,10 +11,7 @@ current = english
 def table_to_dataframe(data, dataset_name):
     #plt, ax = plt.subplots()
     datas = pd.DataFrame(data, columns=current)
-    x = datas.to_latex(index=False)
-    f = open(dataset_name+ ".txt", "w")
-    f.write(x)
-    f.close()
+
 
     print(datas)
     sns.set(style="ticks")
@@ -29,5 +26,14 @@ def table_to_dataframe(data, dataset_name):
 
     ##sns.pairplot(datas, hue='typ')
     #sns.pairplot(y, hue="E")
+    datasR = datas.round({'k_fold': 0, 'accuracy': 2, 'precision': 2, 'recall': 2, 'F1': 2, 'bins': 0})
+    x = datasR.to_latex(index=False)
+    f = open(dataset_name + ".txt", "w")
+    f.write(x)
+    f.close()
+
     print(datas.values)
+
+
+
     plt.show()

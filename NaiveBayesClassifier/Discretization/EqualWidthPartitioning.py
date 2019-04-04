@@ -21,7 +21,7 @@ def get_class(stats, class_prob, buckets, item):
     return max[0]
 
 
-def create_dictionary_with_buckets(raw_data, k):
+def create_dictionary_with_buckets(raw_data, raw_l_data, k):
     d = dict()
     buckets = []
     zipped_raw_data = list(zip(*raw_data))
@@ -29,9 +29,10 @@ def create_dictionary_with_buckets(raw_data, k):
         buckets.append(disc.EqualWidthPartitioning(zipped_raw_data[i], k))
 
     ### tworzenie wygładzonego slownika
+    zipped_l_data = list(zip(*raw_l_data))
     dictonary = dict()
     class_prob = dict()
-    for class_name in zipped_raw_data[len(zipped_raw_data) - 1]:
+    for class_name in zipped_l_data[len(zipped_l_data) - 1]:
         if class_name not in dictonary:
             class_prob[class_name] = k
             dictonary[class_name] = []
@@ -39,8 +40,7 @@ def create_dictionary_with_buckets(raw_data, k):
                 dictonary[class_name].append([int(1) for i in range(k)])
 
     ## uzupełnianie kubełków i liczenie prawdopodobienstwa klasy
-
-    for item in raw_data:
+    for item in raw_l_data:
         for i in range(len(item) - 1):
             dictonary[item[len(item) - 1]][i][buckets[i].binning(item[i])] += 1
         class_prob[item[len(item) - 1]] += 1

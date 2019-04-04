@@ -14,7 +14,7 @@ dataset_name = data[3]
 raw_data = imp.loadCSV("data\\" + dataset_name + ".data")
 zipped = list(zip(*raw_data))
 
-bin = [int(i) for i in range(4, len(raw_data))]
+bin = [int(i) for i in range(4, 15)]
 repeat = 3
 k_fold = [2, 3, 5, 10]
 measurement = []

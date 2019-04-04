@@ -1,5 +1,5 @@
 import scipy.stats
-
+import NaiveBayesClassifier.DataConverter
 
 def get_class(stats, class_prob, item):
     """
@@ -51,6 +51,7 @@ def calc_normal_stats(dataset):
                 oraz slownik z prawdopodonienstwem klas
     """
     stats = dict()
+    dataset = NaiveBayesClassifier.DataConverter.list_to_dictionary(dataset)
     for key, value in dataset.items():
         zipped = list(zip(*value))
         for atr in zipped:

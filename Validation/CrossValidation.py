@@ -22,7 +22,7 @@ def KFold(list):
         for j in range(len(list)):
             if i != j:
                 list_buffor = list_buffor + list[j]
-        return_list.append([DataConverter.list_to_dictionary(list_buffor), list[i]])
+        return_list.append([list_buffor, list[i]])
     return return_list
 
 
