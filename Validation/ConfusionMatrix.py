@@ -68,10 +68,15 @@ class Measure:
 class ConfusionMatrixStatistic:
     relative_matrices = dict()
 
-    def __init__(self, dict):
-
-        for key, value in dict.items():
-            self.relative_matrices[key] = ConfusionMatrix()
+    def __init__(self, dictionary: dict=None, list=None):
+        if list is not None:
+            for item in list:
+                self.relative_matrices[item] = ConfusionMatrix()
+        elif dictionary is not None:
+            for key, value in dictionary.items():
+                self.relative_matrices[key] = ConfusionMatrix()
+        else:
+            print("error init confusion matrix")
 
     def add_result(self, expected, received):
         for key, value in self.relative_matrices.items():
@@ -86,9 +91,11 @@ class ConfusionMatrixStatistic:
                 else:
                     self.relative_matrices[key].FN+=1
 
-    def calc_stats(self):
+    def calc_stats(self, avg = False):
         stats = dict()
         for key, value in self.relative_matrices.items():
             stats[key] = Measure(value)
+
         return stats
+
 

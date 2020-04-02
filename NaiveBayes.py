@@ -8,10 +8,13 @@ import Vizualization.Seaborn as viz
 import time
 from tqdm import tqdm
 
-data = ['iris', 'wine', 'glass', 'pima']
-dataset_name = data[3]
+data = ['seeds'] #, 'wine', 'glass', 'pima']
+dataset_name = data[0]
 
-raw_data = imp.loadCSV("data\\" + dataset_name + ".data")
+import os
+print(os.path.abspath(os.getcwd()))
+
+raw_data = imp.loadCSV("data/" + dataset_name + ".data")
 zipped = list(zip(*raw_data))
 
 bin = [int(i) for i in range(4, 15)]

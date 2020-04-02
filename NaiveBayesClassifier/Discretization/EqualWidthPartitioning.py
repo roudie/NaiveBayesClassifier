@@ -1,6 +1,7 @@
 import math
 
-import NaiveBayesClassifier.Discretization.EqualWidthPartitioning as disc
+#import NaiveBayesClassifier.Discretization.EqualWidthPartitioning as disc
+
 
 def get_class(stats, class_prob, buckets, item):
     prob = dict()
@@ -26,7 +27,7 @@ def create_dictionary_with_buckets(raw_data, raw_l_data, k):
     buckets = []
     zipped_raw_data = list(zip(*raw_data))
     for i in range(len(zipped_raw_data) - 1):
-        buckets.append(disc.EqualWidthPartitioning(zipped_raw_data[i], k))
+        buckets.append(EqualWidthPartitioning(zipped_raw_data[i], k))
 
     ### tworzenie wygładzonego slownika
     zipped_l_data = list(zip(*raw_l_data))

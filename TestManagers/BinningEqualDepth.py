@@ -3,6 +3,7 @@ import pprint
 import NaiveBayesClassifier.Discretization.EqualDepthPartitioning as edp
 from Validation import ConfusionMatrix, CrossValidation as cross
 
+
 class EqualDepthManager:
     k = 1
     repeat = 1

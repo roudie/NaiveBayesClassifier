@@ -1,21 +1,26 @@
 from random import shuffle
 from NaiveBayesClassifier import DataConverter
+import numpy as np
 
-
-def split_list(dataset, p, random):
+def split_list(dataset, p, random, stratyfication):
+    if random:
+        shuffle(dataset)
     list = []
     for i in range(p):
         list.append([])
     iter = 0
-    if random:
-        shuffle(dataset)
+    if stratyfication:
+        dataset.sort(key = lambda x:x[-1])
     for item in dataset:
         list[iter].append(item)
         iter = (iter + 1) % p
     return list
 
 
-def KFold(list):
+
+
+def KFold(dataset, k=5, random=True, stratification = True):
+    list = split_list(dataset, k, random, stratification)
     return_list = []
     for i in range(len(list)):
         list_buffor = []
@@ -25,6 +30,8 @@ def KFold(list):
         return_list.append([list_buffor, list[i]])
     return return_list
 
+def KFold_str(list):
+    pass
 
 def split_dictionary(dictionary, p, random):
     newDict = []
